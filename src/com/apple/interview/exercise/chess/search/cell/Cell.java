@@ -6,7 +6,7 @@ public class Cell {
     private int row;
     private int col;
 
-    public Cell(int row, int col){
+    public Cell(int row, int col) {
         this.row = row;
         this.col = col;
     }
@@ -39,5 +39,19 @@ public class Cell {
     @Override
     public int hashCode() {
         return Objects.hash(getRow(), getCol());
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
+    }
+
+    public boolean getColor(int boardSize) {
+        int cellNumber = row * boardSize + col;
+        if (row % 2 == 0) return cellNumber % 2 == 0;
+        else return cellNumber % 2 != 0;
     }
 }

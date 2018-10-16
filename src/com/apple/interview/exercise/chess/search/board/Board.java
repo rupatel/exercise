@@ -14,18 +14,22 @@ public class Board {
     private PieceType pieceType;
     private Cell start;
     private Cell goal;
-    private Function<Cell,Integer> heuristic;
+    private Function<Cell, Integer> heuristic;
 
-    public Board(int size, PieceType pieceType, Cell start, Cell goal){
-        this(size,pieceType,start,goal, cur -> {
-            int d1 = Math.abs(cur.getRow()- goal.getRow());
+    public Board(int size, PieceType pieceType, Cell start, Cell goal) {
+        this(size, pieceType, start, goal, cur -> {
+            int d1 = Math.abs(cur.getRow() - goal.getRow());
             int d2 = Math.abs(cur.getCol() - goal.getCol());
-            int manhattan = d1+d2;
-            return manhattan/3;
+            int manhattan = d1 + d2;
+            return manhattan / 3;
         });
     }
 
     public Board(int size, PieceType pieceType, Cell start, Cell goal, Function<Cell, Integer> heuristic) {
+        if (goal.getRow() >= size || goal.getRow() < 0 || goal.getCol() >= size || goal.getCol() < 0) {
+            System.out.println("invalid Goal/Start state exiting app...");
+            System.exit(1);
+        }
         this.size = size;
         this.pieceType = pieceType;
         this.start = start;
@@ -33,29 +37,31 @@ public class Board {
         this.heuristic = heuristic;
     }
 
-    public long findMin(){
-        //TODO Implement Search
-        PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b) -> {
+    public long findMin() {
+        if (pieceType == PieceType.BISHOP && start.getColor(size) != goal.getColor(size)) {
+            System.out.println("goal state cannnot be reached");
+            return -1;
+        }
+        PriorityQueue<Node> pq = new PriorityQueue<Node>((a, b) -> {
             int d1 = a.getDistFromStart() + heuristic.apply(a.getCell());
             int d2 = b.getDistFromStart() + heuristic.apply(b.getCell());
-            return d1+d2;
+            return d1 - d2;
         });
         Set<Node> close_set = new HashSet<>();
-        pq.offer(new Node(0,start));
+        pq.offer(new Node(0, start));
         Node goalState = null;
-        while(!pq.isEmpty()){
+        while (!pq.isEmpty()) {
             Node p = pq.poll();
             close_set.add(p);
-            if(p.getCell().equals(goal)){
+            if (p.getCell().equals(goal)) {
                 goalState = p;
                 break;
-            }
-            else{
-                List<Cell> neighbors = pieceType.getNeighbors(p.getCell(),size);
-                for(Cell v : neighbors){
+            } else {
+                List<Cell> neighbors = pieceType.getNeighbors(p.getCell(), size);
+                for (Cell v : neighbors) {
                     Integer cost = new Integer(p.getDistFromStart() + 1);
-                    Node c = new Node(cost,v);
-                    if(!close_set.contains(c)){
+                    Node c = new Node(cost, v);
+                    if (!close_set.contains(c)) {
                         c.setParent(p);
                         pq.offer(c);
                     }
@@ -63,22 +69,30 @@ public class Board {
             }
         }
 
-        if(goalState != null){
-            System.out.println("Min dist travelled:" +  goalState.getDistFromStart());
+        if (goalState != null) {
+            System.out.println("Min dist travelled:" + goalState.getDistFromStart());
+            print(goalState);
             return goalState.getDistFromStart();
-        }
-        else{
+        } else {
             System.out.println("goal state cannnot be reached");
             return -1;
         }
     }
+
+    public void print(Node goal) {
+        while (goal != null) {
+            System.out.println(goal.getCell());
+            goal = goal.getParent();
+        }
+    }
 }
 
-class Node{
+class Node {
     private int distFromStart;
     private Cell cell;
     private Node parent;
-    public Node(int distFromStart,Cell cell){
+
+    public Node(int distFromStart, Cell cell) {
         this.cell = cell;
         this.distFromStart = distFromStart;
     }

@@ -6,51 +6,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PieceType {
-    KING{
+    KING {
         @Override
-        public List<Cell> getNeighbors(Cell cell, int boardSize){
+        public List<Cell> getNeighbors(Cell cell, int boardSize) {
             int r = cell.getRow();
             int c = cell.getCol();
-            int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0},{1,1},{-1,1},{1,-1},{-1,-1}};
+            int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
             List<Cell> neighbors = new ArrayList<Cell>();
-            for(int k=0;k<dirs.length;k++){
+            for (int k = 0; k < dirs.length; k++) {
                 int nextRow = r + dirs[k][0];
                 int nextCol = c + dirs[k][1];
-                if(nextRow>=0 && nextCol>=0 && nextRow<boardSize && nextCol<boardSize)
-                    neighbors.add(new Cell(nextRow,nextCol));
+                if (nextRow >= 0 && nextCol >= 0 && nextRow < boardSize && nextCol < boardSize)
+                    neighbors.add(new Cell(nextRow, nextCol));
             }
             return neighbors;
         }
     },
     KNIGHT {
         @Override
-        public List<Cell> getNeighbors(Cell cell, int boardSize){
+        public List<Cell> getNeighbors(Cell cell, int boardSize) {
             int r = cell.getRow();
             int c = cell.getCol();
-            int[][] dirs = {{2,1},{-2,1},{2,-1},{-2,-1},{1,2},{1,-2},{-1,2},{-1,-2}};
+            int[][] dirs = {{2, 1}, {-2, 1}, {2, -1}, {-2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
             List<Cell> neighbors = new ArrayList<Cell>();
-            for(int k=0;k<dirs.length;k++){
+            for (int k = 0; k < dirs.length; k++) {
                 int nextRow = r + dirs[k][0];
                 int nextCol = c + dirs[k][1];
-                if(nextRow>=0 && nextCol>=0 && nextRow<boardSize && nextCol<boardSize)
-                    neighbors.add(new Cell(nextRow,nextCol));
+                if (nextRow >= 0 && nextCol >= 0 && nextRow < boardSize && nextCol < boardSize)
+                    neighbors.add(new Cell(nextRow, nextCol));
             }
             return neighbors;
         }
     },
-    BISHOP{
+    BISHOP {
         @Override
-        public List<Cell> getNeighbors(Cell cell, int boardSize){
+        public List<Cell> getNeighbors(Cell cell, int boardSize) {
             int r = cell.getRow();
             int c = cell.getCol();
             List<Cell> neighbors = new ArrayList<Cell>();
-            for(int i=r+1,j=c+1; i<boardSize && j<boardSize; i++,j++)
-            {
-                neighbors.add(new Cell(i,j));
+            for (int i = r + 1, j = c + 1; i < boardSize && j < boardSize; i++, j++) {
+                neighbors.add(new Cell(i, j));
+            }
+            for (int i = r - 1, j = c - 1; i >= 0 && j >= 0; i--, j--) {
+                neighbors.add(new Cell(i, j));
+            }
+            for (int i = r - 1, j = c + 1; i >= 0 && j < boardSize; i--, j++) {
+                neighbors.add(new Cell(i, j));
+            }
+            for (int i = r + 1, j = c - 1; i < boardSize && j >= 0; i++, j--) {
+                neighbors.add(new Cell(i, j));
             }
             return neighbors;
         }
     };
 
-    public abstract  List<Cell> getNeighbors(Cell c, int boardSize);
+    public abstract List<Cell> getNeighbors(Cell c, int boardSize);
 }

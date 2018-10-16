@@ -5,9 +5,10 @@ import com.apple.interview.exercise.chess.search.cell.Cell;
 import com.apple.interview.exercise.chess.search.piece.PieceType;
 
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class ChessSearch {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         System.out.println("ENTER PIECE TYPE:");
         System.out.println("1)KING");
@@ -24,14 +25,14 @@ public class ChessSearch {
         int gr = sc.nextInt();
         System.out.println("ENTER COL OF GOAL STATE:");
         int gc = sc.nextInt();
-
-        Board board = new Board(8,getPieceType(opt),new Cell(pr,pc),new Cell(gr,gc));
-
-        System.out.println("Min steps to reach goal state" + board.findMin());
+        Cell start = new Cell(pr, pc);
+        Cell goal = new Cell(gr, gc);
+        Board board = new Board(8, getPieceType(opt), start, goal);
+        board.findMin();
     }
 
-    private static PieceType getPieceType(int opt){
-        switch (opt){
+    private static PieceType getPieceType(int opt) {
+        switch (opt) {
             case 1:
                 return PieceType.KING;
             case 2:
@@ -40,6 +41,31 @@ public class ChessSearch {
                 return PieceType.BISHOP;
             default:
                 return PieceType.KING;
+        }
+    }
+
+    private static Function<Cell, Integer> getHeuristic(int opt, Cell goal) {
+        switch (opt) {
+            case 1:
+                return cur -> {
+                    int d1 = Math.abs(cur.getRow() - goal.getRow());
+                    int d2 = Math.abs(cur.getCol() - goal.getCol());
+                    int manhattan = d1 + d2;
+                    return manhattan / 2;
+                };
+            case 2:
+                return cur -> {
+                    int d1 = Math.abs(cur.getRow() - goal.getRow());
+                    int d2 = Math.abs(cur.getCol() - goal.getCol());
+                    int manhattan = d1 + d2;
+                    return manhattan / 3;
+                };
+            case 3:
+                return cur -> Math.min(Math.abs(cur.getRow() - goal.getRow()),
+                        Math.abs(cur.getCol() - goal.getCol()));
+            default:
+                //never overestimate the distance to goal node
+                return cur -> 0;
         }
     }
 }
