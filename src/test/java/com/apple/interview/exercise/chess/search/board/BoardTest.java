@@ -4,10 +4,9 @@ import com.apple.interview.exercise.chess.search.cell.Cell;
 import com.apple.interview.exercise.chess.search.piece.PieceType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BoardTest {
-
     @Test
     public void findMin() {
         Cell start = new Cell(0,0);
@@ -60,5 +59,14 @@ public class BoardTest {
         goal = new Cell(5,1);
         board = new Board(8, PieceType.KING, start, goal);
         assertEquals(3,board.findMin());
+
+
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void findMinIllegalState(){
+        Cell start = new Cell(8,8);
+        Cell goal = new Cell(7,6);
+        Board board = new Board(8, PieceType.KING, start, goal);
     }
 }

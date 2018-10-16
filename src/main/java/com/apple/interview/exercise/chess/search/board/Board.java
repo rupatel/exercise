@@ -26,9 +26,10 @@ public class Board {
     }
 
     public Board(int size, PieceType pieceType, Cell start, Cell goal, Function<Cell, Integer> heuristic) {
-        if (goal.getRow() >= size || goal.getRow() < 0 || goal.getCol() >= size || goal.getCol() < 0) {
-            System.out.println("invalid Goal/Start state exiting app...");
-            System.exit(1);
+        if (goal.getRow() >= size || goal.getRow() < 0 || goal.getCol() >= size || goal.getCol() < 0 ||
+                start.getRow() >= size || start.getRow() < 0 || start.getCol() >= size || start.getCol() < 0) {
+            throw new IllegalStateException("invalid goal/start state");
+
         }
         this.size = size;
         this.pieceType = pieceType;
