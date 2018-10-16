@@ -5,6 +5,9 @@ import com.apple.interview.exercise.chess.search.cell.Cell;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This enum represents the type of the piece: King, Knight, Bishop
+ */
 public enum PieceType {
     KING {
         @Override
@@ -60,5 +63,11 @@ public enum PieceType {
         }
     };
 
+    /**
+     *
+     * @param c : cell on chess board
+     * @param boardSize: size of chess board
+     * @return: all the neighbors of this piece (positioned at cell)
+     */
     public abstract List<Cell> getNeighbors(Cell c, int boardSize);
 }

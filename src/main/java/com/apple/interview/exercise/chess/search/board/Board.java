@@ -9,6 +9,9 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * Represents Chess Board having size, type of piece and start and end goals
+ */
 public class Board {
     private int size;
     private PieceType pieceType;
@@ -38,16 +41,30 @@ public class Board {
         this.heuristic = heuristic;
     }
 
+    /**
+     * Implements A* algorithm based on heuristic for different piece types
+     *
+     * @return Min distance required to move a Piece from start cell to goal cell.
+     */
     public long findMin() {
+        /**
+         * We know only case its not possible to reach goal node is in the case of bishop
+         * when the goal state is of opposite color.
+         * In case of Knight and King, we can move them to any position in the board,
+         * so it will never be the case that the goal is not reached.
+         */
         if (pieceType == PieceType.BISHOP && start.getColor(size) != goal.getColor(size)) {
             System.out.println("goal state cannnot be reached");
             return -1;
         }
+        // Priority Queue stores nodes in ascending order of its distance from start node and
+        // the heuristic estimate of its distance to goal node.
         PriorityQueue<Node> pq = new PriorityQueue<Node>((a, b) -> {
             int d1 = a.getDistFromStart() + heuristic.apply(a.getCell());
             int d2 = b.getDistFromStart() + heuristic.apply(b.getCell());
             return d1 - d2;
         });
+        // stores information about the nodes already explored
         Set<Node> close_set = new HashSet<>();
         pq.offer(new Node(0, start));
         Node goalState = null;
@@ -75,11 +92,17 @@ public class Board {
             print(goalState);
             return goalState.getDistFromStart();
         } else {
+            // never the case
             System.out.println("goal state cannnot be reached");
             return -1;
         }
     }
 
+    /**
+     * print path from goal to start node
+     *
+     * @param goal: the goal Node
+     */
     public void print(Node goal) {
         while (goal != null) {
             System.out.println(goal.getCell());
@@ -88,6 +111,10 @@ public class Board {
     }
 }
 
+/**
+ * Represents Node to be stored in priority Queue. It contains information about
+ * distance travelled from the start node, its cell position in the board and its parent.
+ */
 class Node {
     private int distFromStart;
     private Cell cell;

@@ -60,9 +60,6 @@ public class ChessSearch {
                     int manhattan = d1 + d2;
                     return manhattan / 3;
                 };
-            case 3:
-                return cur -> Math.min(Math.abs(cur.getRow() - goal.getRow()),
-                        Math.abs(cur.getCol() - goal.getCol()));
             default:
                 //never overestimate the distance to goal node
                 return cur -> 0;

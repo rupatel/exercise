@@ -2,6 +2,9 @@ package com.apple.interview.exercise.chess.search.cell;
 
 import java.util.Objects;
 
+/**
+ * Represents Cell in a Chess board. It has row no. and col no.
+ */
 public class Cell {
     private int row;
     private int col;
@@ -49,6 +52,12 @@ public class Cell {
                 '}';
     }
 
+    /**
+     * Determines the color of the cell in a chess board.
+     *
+     * @param boardSize: size of chess board
+     * @return true if the color of cell is white, false otherwise.
+     */
     public boolean getColor(int boardSize) {
         int cellNumber = row * boardSize + col;
         if (row % 2 == 0) return cellNumber % 2 == 0;
