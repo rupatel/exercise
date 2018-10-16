@@ -61,7 +61,7 @@ public class ChessSearch {
                     return manhattan / 3;
                 };
             default:
-                //never overestimate the distance to goal node
+                //never overestimate the distance to the goal node
                 return cur -> 0;
         }
     }

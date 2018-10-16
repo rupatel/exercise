@@ -65,7 +65,7 @@ public enum PieceType {
 
     /**
      *
-     * @param c : cell on chess board
+     * @param c : the cell on chess board
      * @param boardSize: size of chess board
      * @return: all the neighbors of this piece (positioned at cell)
      */

@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * Represents Chess Board having size, type of piece and start and end goals
+ * Represents the Chess Board having size, type of piece and start and end goals
  */
 public class Board {
     private int size;
@@ -42,23 +42,23 @@ public class Board {
     }
 
     /**
-     * Implements A* algorithm based on heuristic for different piece types
+     * Implements A* algorithm based on the heuristic for different piece types
      *
      * @return Min distance required to move a Piece from start cell to goal cell.
      */
     public long findMin() {
         /**
-         * We know only case its not possible to reach goal node is in the case of bishop
-         * when the goal state is of opposite color.
-         * In case of Knight and King, we can move them to any position in the board,
-         * so it will never be the case that the goal is not reached.
+         * We know only case it's not possible to reach goal node is in the case of
+         * bishop when the goal state is of opposite color. In the case of Knight and
+         * King, we can move them to any position on the board, so it will never be the
+         * case that the goal is not reached.
          */
         if (pieceType == PieceType.BISHOP && start.getColor(size) != goal.getColor(size)) {
             System.out.println("goal state cannnot be reached");
             return -1;
         }
         // Priority Queue stores nodes in ascending order of its distance from start node and
-        // the heuristic estimate of its distance to goal node.
+        // the heuristic estimate of its distance to the goal node.
         PriorityQueue<Node> pq = new PriorityQueue<Node>((a, b) -> {
             int d1 = a.getDistFromStart() + heuristic.apply(a.getCell());
             int d2 = b.getDistFromStart() + heuristic.apply(b.getCell());
@@ -112,8 +112,8 @@ public class Board {
 }
 
 /**
- * Represents Node to be stored in priority Queue. It contains information about
- * distance travelled from the start node, its cell position in the board and its parent.
+ * Represents Node to be stored in Priority Queue. It contains information about
+ * distance traveled from the start node, its cell position in the board and its parent.
  */
 class Node {
     private int distFromStart;
