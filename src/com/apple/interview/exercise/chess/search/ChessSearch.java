@@ -2,7 +2,6 @@ package com.apple.interview.exercise.chess.search;
 
 import com.apple.interview.exercise.chess.search.board.Board;
 import com.apple.interview.exercise.chess.search.cell.Cell;
-import com.apple.interview.exercise.chess.search.piece.Piece;
 import com.apple.interview.exercise.chess.search.piece.PieceType;
 
 import java.util.Scanner;
@@ -26,8 +25,7 @@ public class ChessSearch {
         System.out.println("ENTER COL OF GOAL STATE:");
         int gc = sc.nextInt();
 
-        Piece piece = new Piece(new Cell(pr,pc),getPieceType(opt));
-        Board board = new Board(piece,new Cell(gr,gc));
+        Board board = new Board(8,getPieceType(opt),new Cell(pr,pc),new Cell(gr,gc));
 
         System.out.println("Min steps to reach goal state" + board.findMin());
     }
