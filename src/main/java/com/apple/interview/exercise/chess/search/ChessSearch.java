@@ -31,6 +31,11 @@ public class ChessSearch {
         board.findMin();
     }
 
+    /**
+     *
+     * @param opt user selected option
+     * @return the Piece type based on option
+     */
     private static PieceType getPieceType(int opt) {
         switch (opt) {
             case 1:
@@ -44,6 +49,12 @@ public class ChessSearch {
         }
     }
 
+    /**
+     *
+     * @param opt user selected option
+     * @param goal: the goal state
+     * @return the heuristic function
+     */
     private static Function<Cell, Integer> getHeuristic(int opt, Cell goal) {
         switch (opt) {
             case 1:
