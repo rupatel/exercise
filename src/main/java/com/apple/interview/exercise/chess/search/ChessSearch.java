@@ -27,7 +27,7 @@ public class ChessSearch {
         int gc = sc.nextInt();
         Cell start = new Cell(pr, pc);
         Cell goal = new Cell(gr, gc);
-        Board board = new Board(8, getPieceType(opt), start, goal);
+        Board board = new Board(8, getPieceType(opt), start, goal,getHeuristic(opt,goal));
         board.findMin();
     }
 
